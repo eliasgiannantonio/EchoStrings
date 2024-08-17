@@ -59,7 +59,7 @@ function Header({ cart, setCart }) {
                         {cart.map((item) => (
                           <tr key={item.id}>
                             <td>
-                              <img className="img-fluid" src={`./public/img/${item.image}.jpg`} alt={item.name} />
+                              <img className="img-fluid" src={`./img/${item.image}.jpg`} alt={item.name} />
                             </td>
                             <td>{item.name}</td>
                             <td className="fw-bold">${item.price}</td>
