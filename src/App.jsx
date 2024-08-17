@@ -6,10 +6,26 @@ import { db } from "./data/db"
 function App() {
 
   const [data, setData] = useState(db)
+  const [cart, setCart] = useState([])
+
+  const addToCart = (item) => {
+    const existingItem = cart.find((cartItem) => cartItem.id === item.id)
+
+    if (existingItem) {
+      // Si el artículo ya está en el carrito, incrementa la cantidad
+      const updatedCart = cart.map((cartItem) => 
+        cartItem.id === item.id ? { ...cartItem, quantity: cartItem.quantity + 1 } : cartItem
+      );
+      setCart(updatedCart)
+    } else {
+      // Si el artículo no está en el carrito, agrégalo con cantidad 1
+      setCart([...cart, { ...item, quantity: 1 }])
+    }
+  }
 
   return (
     <>
-    <Header />
+    <Header cart={cart} setCart={setCart} />
       
 
       <main className="container-xl mt-5">
@@ -20,6 +36,9 @@ function App() {
               <Guitar
                 guitar = {guitar}
                 key={guitar.id}
+                setCart = {setCart}
+                cart = {cart}
+                addToCart = {addToCart}
               />
           ))} 
         </div>
