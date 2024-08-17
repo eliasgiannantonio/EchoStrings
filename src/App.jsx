@@ -7,6 +7,7 @@ function App() {
 
   const [data, setData] = useState(db)
   const [cart, setCart] = useState([])
+  const [notifications, setNotifications] = useState([]);
 
   const addToCart = (item) => {
     const existingItem = cart.find((cartItem) => cartItem.id === item.id)
@@ -21,11 +22,28 @@ function App() {
       // Si el artículo no está en el carrito, agrégalo con cantidad 1
       setCart([...cart, { ...item, quantity: 1 }])
     }
+    const newNotification = `${item.name} agregado al carrito`;
+    setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
+
+    // Eliminar la notificación después de 3 segundos
+    setTimeout(() => {
+      setNotifications((prevNotifications) => prevNotifications.slice(1));
+    }, 3000);
   }
+
 
   return (
     <>
     <Header cart={cart} setCart={setCart} />
+    
+    {/* Contenedor de notificaciones */}
+    <div className="notification-container">
+        {notifications.map((notification, index) => (
+          <div key={index} className="notification">
+            {notification}
+          </div>
+        ))}
+      </div>
       
 
       <main className="container-xl mt-5">
